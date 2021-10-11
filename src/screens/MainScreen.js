@@ -5,7 +5,12 @@ import {Post} from "../components/Post";
 
 export const MainScreen = ({navigation}) => {
     const openPostHandler = (post) => {
-        navigation.navigate('Post', {postId: post.id, title: `Пост от ${new Date(post.date).toLocaleDateString()}`});
+        let iconName = post.booked ? 'ios-star' : 'ios-star-outline' ;
+        navigation.navigate('Post', {
+            postId: post.id,
+            title: `Пост от ${new Date(post.date).toLocaleDateString()}`,
+            iconName
+        });
     }
     return (
         <View style={styles.wrapper}>
