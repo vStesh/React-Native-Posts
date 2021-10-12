@@ -60,7 +60,7 @@ const PostStack = () => {
                             <Item
                                 title="Take photo"
                                 iconName="ios-camera"
-                                onPress={() => console.log('Press photo')}
+                                onPress={() => navigation.navigate('Create')}
                             />
                         </HeaderButtons>
                     ),
@@ -133,10 +133,51 @@ const PostTab = () => {
 const TabNavigator = () => {
     return (
         <NavigationContainer>
-            <Drawer.Navigator>
-                <Drawer.Screen name="PostTab" component={PostTab} options={{title: 'Все посты', headerStyle: {opacity: 0, height: 0}}} />
-                <Drawer.Screen name="Create" component={CreateScreen} />
-                <Drawer.Screen name="About" component={AboutScreen} />
+            <Drawer.Navigator
+                initialRouteName="Create"
+                defaultStatus="closed"
+                screenOptions={{
+                    drawerActiveTintColor: THEME.MAIN_COLOR,
+                    drawerLabelStyle: {
+                        marginLeft: 10,
+                        fontSize: 20,
+                        color: 'white',
+                        fontFamily: 'open-bold'
+                    },
+                    drawerContentContainerStyle: {
+                        // backgroundColor: '#fafafa'
+                    },
+                    drawerContentStyle: {
+                        // backgroundColor: 'red'
+                    },
+                    drawerStyle: {
+                        backgroundColor: 'green',
+                    }
+                }}
+            >
+                <Drawer.Screen
+                    name="PostTab"
+                    component={PostTab}
+                    options={{
+                        title: 'Все посты', headerStyle: {opacity: 0, height: 0},
+                        drawerLabel: 'Главная'
+                    }}
+                />
+                <Drawer.Screen
+                    name="Create"
+                    component={CreateScreen}
+                    options={{
+                        title: 'Создание нового поста',
+                        drawerLabel: 'Создать'
+                    }}
+                />
+                <Drawer.Screen
+                    name="About"
+                    component={AboutScreen}
+                    options={{
+                        title: 'О приложении'
+                    }}
+                />
             </Drawer.Navigator>
         </NavigationContainer>
     );
