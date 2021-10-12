@@ -1,18 +1,17 @@
 import React from "react";
-import {View, Text, StyleSheet} from "react-native";
+import {DATA} from "../data";
+import {PostList} from "../components/PostList";
 
-export const BookedScreen = ({}) => {
+export const BookedScreen = ({navigation}) => {
+    const openPostHandler = (post) => {
+        let iconName = post.booked ? 'ios-star' : 'ios-star-outline' ;
+        navigation.navigate('Post', {
+            postId: post.id,
+            title: `Пост от ${new Date(post.date).toLocaleDateString()}`,
+            iconName
+        });
+    }
     return (
-        <View style={styles.center}>
-            <Text>Booked screen</Text>
-        </View>
+        <PostList data={DATA.filter(post => post.booked)} onOpen={openPostHandler}/>
     );
 }
-
-const styles = StyleSheet.create({
-    center: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    }
-});
