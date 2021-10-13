@@ -1,17 +1,26 @@
-import React from "react";
-import {DATA} from "../data";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from 'react-redux';
 import {PostList} from "../components/PostList";
+import {loadPosts} from "../store/actions/post";
 
-export const MainScreen = ({navigation}) => {
+export const MainScreen = ({route, navigation}) => {
+    const dispatch = useDispatch();
+
     const openPostHandler = (post) => {
-        let iconName = post.booked ? 'ios-star' : 'ios-star-outline' ;
         navigation.navigate('Post', {
             postId: post.id,
-            title: `Пост от ${new Date(post.date).toLocaleDateString()}`,
-            iconName
+            title: `Пост от ${new Date(post.date).toLocaleDateString()}`
         });
     }
+
+
+    useEffect(() => {
+       dispatch(loadPosts());
+    }, []);
+
+    const allPosts = useSelector(state => state.post.allPosts);
+
     return (
-        <PostList data={DATA} onOpen={openPostHandler} />
+        <PostList data={allPosts} onOpen={openPostHandler} />
     );
 }

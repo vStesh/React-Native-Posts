@@ -1,12 +1,21 @@
 import React from "react";
 import {View, Text, StyleSheet, Image, Button, ScrollView, Alert} from "react-native";
-import {DATA} from "../data";
 import {THEME} from "../theme";
+import {useDispatch, useSelector} from "react-redux";
+import {removePost} from "../store/actions/post";
+
 
 export const PostScreen = ({route, navigation}) => {
+    const dispatch = useDispatch();
     const {postId} = route.params;
-    const post = DATA.find(p => p.id === postId);
+    const post = useSelector(state => state.post.allPosts.find(p => p.id === postId));
     const removeHandler = () => {
+        // const removePost = () => {
+        //
+        //
+        //     console.log('Пост удален');
+        // }
+
         Alert.alert(
             "Удаление поста",
             "Вы точно хотите удалить пост?",
@@ -17,13 +26,17 @@ export const PostScreen = ({route, navigation}) => {
                 },
                 {
                     text: "Удалить",
-                    onPress: () => {},
+                    onPress: () => {
+                        navigation.navigate('Main');
+                        dispatch(removePost(postId));
+                    },
                     style: "destructive",
                 },
             ],
             {cancelable: true}
         );
     }
+
     return (
         <ScrollView style={styles.image}>
             <Image source={{uri: post.img}} style={styles.image}/>
