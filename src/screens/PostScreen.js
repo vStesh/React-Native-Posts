@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, StyleSheet, Image, Button, ScrollView, Alert} from "react-native";
+import {View, Text, StyleSheet, Image, Button, ScrollView, Alert, TouchableOpacity} from "react-native";
 import {THEME} from "../theme";
 import {useDispatch, useSelector} from "react-redux";
 import {removePost} from "../store/actions/post";
@@ -39,9 +39,14 @@ export const PostScreen = ({route, navigation}) => {
 
     return (
         <ScrollView style={styles.image}>
-            <Image source={{uri: post.img}} style={styles.image}/>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('PhotoDetail', {
+                    post: post,
+                    title: `Просмотр изображения`
+                })}>
+                <Image source={{uri: post.img}} style={styles.image}/>
+            </TouchableOpacity>
             <View style={styles.textWrap}>
-                <Text style={styles.title}>{post.text.repeat(10)}</Text>
+                <Text style={styles.title}>{post.text}</Text>
             </View>
             <Button title="Удалить пост" color={THEME.DANGER_COLOR} onPress={removeHandler}/>
         </ScrollView>

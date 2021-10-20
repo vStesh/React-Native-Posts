@@ -12,7 +12,7 @@ export const CreateScreen = ({navigation}) => {
 
     const saveHandler = () => {
         const post = {
-            date: new Date(),
+            date: new Date().toLocaleDateString(),
             text: text,
             img: imgRef.current,
             booked: false

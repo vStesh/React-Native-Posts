@@ -16,6 +16,7 @@ import {Ionicons} from "@expo/vector-icons";
 import {AboutScreen} from "../screens/AboutScreen";
 import {CreateScreen} from "../screens/CreateScreen";
 import {toggleBooked} from "../store/actions/post";
+import {PhotoDetail} from "../components/PhotoDetail";
 
 const tintColor = Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR;
 const Post = createNativeStackNavigator();
@@ -26,15 +27,15 @@ const Drawer = createDrawerNavigator();
 
 const PostStack = ({}) => {
     const dispatch = useDispatch();
-    const toggleHandler = (id) => {
-        dispatch(toggleBooked(id));
+    const toggleHandler = (post) => {
+        dispatch(toggleBooked(post));
     }
 
     const allPosts = useSelector(state => state.post.allPosts);
     const postOptions = ({route}) => {
         const {postId} = route.params;
-        const {booked} = allPosts.find(p => p.id ===  postId);
-        let iconName = booked ? 'ios-star' : 'ios-star-outline' ;
+        const post = allPosts.find(p => p.id ===  postId);
+        let iconName = post.booked ? 'ios-star' : 'ios-star-outline' ;
         return {
             title: route.params.title,
             headerRight: () => (
@@ -42,7 +43,7 @@ const PostStack = ({}) => {
                     <Item
                         title="Take photo"
                         iconName={iconName}
-                        onPress={() => toggleHandler(postId)}
+                        onPress={() => toggleHandler(post)}
                     />
                 </HeaderButtons>
             ),
@@ -88,22 +89,26 @@ const PostStack = ({}) => {
                 component={PostScreen}
                 options={postOptions}
             />
+            <Post.Screen
+                name="PhotoDetail"
+                component={PhotoDetail}
+            />
         </Post.Navigator>
     );
 }
 
 const BookedStack = () => {
     return (
-        <Bottom.Navigator initialRouteName="Main">
+        <Bottom.Navigator initialRouteName="BookedMain">
             <Bottom.Screen
-                name="Main"
+                name="BookedMain"
                 component={BookedScreen}
                 options={() => ({
                     title: 'Избранное'
                 })}
             />
             <Post.Screen
-                name="Post"
+                name="BookedPost"
                 component={PostScreen}
                 options={({route}) => ({
                     title: route.params.title,
